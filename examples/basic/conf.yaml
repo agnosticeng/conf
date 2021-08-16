@@ -1,0 +1,8 @@
+tag: sample
+timeout: 5s
+sub:
+  items:
+    - host: redis.local
+      port: 6339
+      connection_timeout: 30s
+      request_timeout: 3s
