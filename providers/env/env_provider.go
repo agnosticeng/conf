@@ -26,15 +26,15 @@ func (this *EnvProvider) ReadBytes() ([]byte, error) {
 
 func (this *EnvProvider) Read() (map[string]interface{}, error) {
 	var (
-		res interface{}
-		err error
-		env = make([]string, len(os.Environ()))
+		res  interface{}
+		err  error
+		envs = make([]string, len(os.Environ()))
 	)
 
-	copy(env, os.Environ())
-	sort.Strings(env)
+	copy(envs, os.Environ())
+	sort.Strings(envs)
 
-	for _, kv := range env {
+	for _, kv := range envs {
 		segments := strings.SplitN(kv, "=", 2)
 		path := strings.Split(segments[0], "__")
 

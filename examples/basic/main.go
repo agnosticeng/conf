@@ -37,7 +37,7 @@ func defaultConfig() config {
 		Sub: subConfig{
 			Impl: "coco",
 			Items: []subConfigItem{
-				subConfigItem{
+				{
 					Host:              "test.local",
 					Port:              80,
 					ConnectionTimeout: time.Second,
