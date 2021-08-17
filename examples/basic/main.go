@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/agnosticeng/conf"
@@ -11,6 +12,7 @@ import (
 type config struct {
 	Amount  int
 	Tag     string
+	Name    string
 	Timeout time.Duration
 	Sub     subConfig
 }
@@ -52,6 +54,10 @@ func pp(i interface{}) string {
 }
 
 func main() {
+	os.Setenv("APP__NAME", "KOANF")
+	os.Setenv("APP__SUB__ITEMS__0__PORT", "443")
+	os.Setenv("APP__SUB__ITEMS__1__HOST", "loco.local")
+
 	cfg := defaultConfig()
 
 	if err := conf.Load(&cfg, "examples/basic/conf.yaml", "APP"); err != nil {

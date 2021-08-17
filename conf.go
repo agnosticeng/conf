@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path"
 
+	"github.com/agnosticeng/conf/providers/env"
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/json"
 	"github.com/knadh/koanf/parsers/yaml"
@@ -34,6 +35,10 @@ func Load(i interface{}, path string, envPrefix string) error {
 		if err := k.Load(file.Provider(path), parser); err != nil {
 			return err
 		}
+	}
+
+	if err := k.Load(env.NewEnvProvider(envPrefix), nil); err != nil {
+		return err
 	}
 
 	if err := k.Unmarshal("", &i); err != nil {
