@@ -1,6 +1,7 @@
 package conf
 
 import (
+	"errors"
 	"fmt"
 	"path"
 
@@ -22,7 +23,21 @@ func lookupParser(filepath string) koanf.Parser {
 	}
 }
 
-func Load(i interface{}, path string, envPrefix string) error {
+func Load(i interface{}, opts ...string) error {
+	var prefix, path string
+
+	if len(opts) > 0 {
+		prefix = opts[0]
+	}
+
+	if len(opts) == 2 {
+		path = opts[1]
+	}
+
+	if len(opts) > 2 {
+		return errors.New("invalid amount of options")
+	}
+
 	k := koanf.New(".")
 
 	if len(path) > 0 {
@@ -37,7 +52,7 @@ func Load(i interface{}, path string, envPrefix string) error {
 		}
 	}
 
-	if err := k.Load(env.NewEnvProvider(envPrefix), nil); err != nil {
+	if err := k.Load(env.NewEnvProvider(prefix), nil); err != nil {
 		return err
 	}
 
