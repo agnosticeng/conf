@@ -22,22 +22,28 @@ func lookupParser(filepath string) koanf.Parser {
 	}
 }
 
-func Load(i interface{}, path string, envPrefix string) error {
+func Load(i interface{}, optsBuilders ...OptionsBuilderFunc) error {
 	k := koanf.New(".")
 
-	if len(path) > 0 {
-		parser := lookupParser(path)
+	var opts = DefaultOptions()
+
+	for _, optsBuilder := range optsBuilders {
+		opts = optsBuilder(opts)
+	}
+
+	if len(opts.ConfigFilePath) > 0 {
+		parser := lookupParser(opts.ConfigFilePath)
 
 		if parser == nil {
-			return fmt.Errorf("cannot find a parser for %s", path)
+			return fmt.Errorf("cannot find a parser for %s", opts.ConfigFilePath)
 		}
 
-		if err := k.Load(file.Provider(path), parser); err != nil {
+		if err := k.Load(file.Provider(opts.ConfigFilePath), parser); err != nil {
 			return err
 		}
 	}
 
-	if err := k.Load(env.NewEnvProvider(envPrefix), nil); err != nil {
+	if err := k.Load(env.NewEnvProvider(opts.EnvPrefix), nil); err != nil {
 		return err
 	}
 

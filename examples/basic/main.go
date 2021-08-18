@@ -57,10 +57,11 @@ func main() {
 	os.Setenv("APP__NAME", "KOANF")
 	os.Setenv("APP__SUB__ITEMS__0__PORT", "443")
 	os.Setenv("APP__SUB__ITEMS__1__HOST", "loco.local")
+	os.Setenv("APP__SUB__ITEMS__1__REQUEST_TIMEOUT", "17s")
 
 	cfg := defaultConfig()
 
-	if err := conf.Load(&cfg, "examples/basic/conf.yaml", "APP"); err != nil {
+	if err := conf.Load(&cfg, conf.WithConfigFilePath("examples/basic/conf.yaml"), conf.WithEnPrefix("APP")); err != nil {
 		panic(err)
 	}
 
