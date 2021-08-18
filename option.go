@@ -21,7 +21,7 @@ func WithConfigFilePath(path string) OptionsBuilderFunc {
 	}
 }
 
-func WithEnPrefix(prefix string) OptionsBuilderFunc {
+func WithEnvPrefix(prefix string) OptionsBuilderFunc {
 	return func(opts *Options) *Options {
 		opts.EnvPrefix = prefix
 		return opts
