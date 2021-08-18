@@ -7,6 +7,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestEmpty(t *testing.T) {
+	os.Clearenv()
+
+	p := NewEnvProvider("APP")
+
+	m, err := p.Read()
+
+	assert.NoError(t, err)
+	assert.Equal(t, map[string]interface{}{}, m)
+}
+
 func TestSimple(t *testing.T) {
 	os.Clearenv()
 	os.Setenv("APP__CLIENTS__MY_SERVICE__READ_TIMEOUT", "100ms")

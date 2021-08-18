@@ -26,7 +26,7 @@ func (this *EnvProvider) ReadBytes() ([]byte, error) {
 
 func (this *EnvProvider) Read() (map[string]interface{}, error) {
 	var (
-		res interface{}
+		res interface{} = make(map[string]interface{})
 		err error
 		env = make([]string, len(os.Environ()))
 	)
