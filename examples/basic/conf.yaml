@@ -1,6 +1,7 @@
 tag: sample
 timeout: 5s
 sub:
+  target: http://google.com
   items:
     - host: redis.local
       port: 6339

@@ -5,10 +5,12 @@ import (
 	"path"
 
 	"github.com/agnosticeng/conf/providers/env"
+	mapstructure_hooks "github.com/agnosticeng/mapstructure-hooks"
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/json"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/file"
+	"github.com/mitchellh/mapstructure"
 )
 
 func lookupParser(filepath string) koanf.Parser {
@@ -47,7 +49,23 @@ func Load(i interface{}, optsBuilders ...OptionsBuilderFunc) error {
 		return err
 	}
 
-	if err := k.Unmarshal("", &i); err != nil {
+	var hooks []mapstructure.DecodeHookFunc
+
+	hooks = append(hooks, mapstructure.StringToTimeDurationHookFunc())
+	hooks = append(hooks, mapstructure_hooks.All()...)
+
+	if len(opts.MapstructureHooks) > 0 {
+		hooks = append(hooks, opts.MapstructureHooks...)
+	}
+
+	var mdc mapstructure.DecoderConfig
+
+	mdc.Metadata = nil
+	mdc.Result = &i
+	mdc.WeaklyTypedInput = true
+	mdc.DecodeHook = mapstructure.ComposeDecodeHookFunc(hooks...)
+
+	if err := k.UnmarshalWithConf("", &i, koanf.UnmarshalConf{DecoderConfig: &mdc}); err != nil {
 		return err
 	}
 
