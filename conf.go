@@ -63,6 +63,7 @@ func Load(i interface{}, optsBuilders ...OptionsBuilderFunc) error {
 	mdc.Metadata = nil
 	mdc.Result = &i
 	mdc.WeaklyTypedInput = true
+	mdc.Squash = true
 	mdc.DecodeHook = mapstructure.ComposeDecodeHookFunc(hooks...)
 
 	if err := k.UnmarshalWithConf("", &i, koanf.UnmarshalConf{DecoderConfig: &mdc}); err != nil {
