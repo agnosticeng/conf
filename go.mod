@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/BurntSushi/toml v0.4.1 // indirect
 	github.com/agnosticeng/dynamap v0.1.2
-	github.com/agnosticeng/mapstructure-hooks v0.2.0
+	github.com/agnosticeng/mapstructure-hooks v0.3.0
 	github.com/iancoleman/strcase v0.2.0
 	github.com/knadh/koanf v1.3.2
 	github.com/kr/pretty v0.3.0 // indirect
